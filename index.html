@@ -1,0 +1,751 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Làm Giàu Thể Chất - Nguyễn Thị Mai</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px 20px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 24px;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .header p {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+
+        .nav {
+            display: flex;
+            background: #f5f5f5;
+            border-bottom: 1px solid #eee;
+        }
+
+        .nav button {
+            flex: 1;
+            padding: 15px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            color: #666;
+            transition: all 0.3s;
+            position: relative;
+        }
+
+        .nav button.active {
+            color: #667eea;
+            background: white;
+        }
+
+        .nav button.active::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: #667eea;
+        }
+
+        .content {
+            padding: 20px;
+            display: none;
+        }
+
+        .content.active {
+            display: block;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 13px;
+            color: #666;
+            margin-bottom: 6px;
+            font-weight: 500;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 11px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 14px;
+            font-family: inherit;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .btn {
+            width: 100%;
+            padding: 12px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+        }
+
+        .activity-item {
+            background: #f9f9f9;
+            border: 1px solid #eee;
+            border-radius: 8px;
+            padding: 12px;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .activity-item-info p {
+            margin: 0;
+            font-size: 13px;
+        }
+
+        .activity-item-info p:first-child {
+            font-weight: 600;
+            color: #333;
+        }
+
+        .activity-item-info p:last-child {
+            color: #999;
+            font-size: 12px;
+        }
+
+        .btn-delete {
+            background: #ff6b6b;
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        .btn-delete:hover {
+            background: #ff5252;
+        }
+
+        .tabs {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+        }
+
+        .tab-btn {
+            padding: 8px 16px;
+            background: #f0f0f0;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 500;
+            color: #666;
+            transition: all 0.3s;
+        }
+
+        .tab-btn.active {
+            background: #667eea;
+            color: white;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+            margin-bottom: 15px;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .stat-card-label {
+            font-size: 12px;
+            opacity: 0.9;
+            margin-bottom: 8px;
+        }
+
+        .stat-card-value {
+            font-size: 28px;
+            font-weight: 700;
+        }
+
+        .stat-card-unit {
+            font-size: 11px;
+            opacity: 0.8;
+        }
+
+        .stars-display {
+            background: linear-gradient(135deg, #f9d56e 0%, #f7a71d 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+            margin-bottom: 15px;
+        }
+
+        .stars-display-emoji {
+            font-size: 48px;
+            margin-bottom: 10px;
+        }
+
+        .stars-display-text {
+            font-size: 13px;
+            opacity: 0.9;
+            margin-bottom: 5px;
+        }
+
+        .stars-display-number {
+            font-size: 36px;
+            font-weight: 700;
+        }
+
+        .daily-item {
+            background: #f9f9f9;
+            border: 1px solid #eee;
+            border-radius: 8px;
+            padding: 12px;
+            margin-bottom: 10px;
+        }
+
+        .daily-item-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #333;
+            font-size: 13px;
+        }
+
+        .daily-item-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+            gap: 8px;
+            font-size: 12px;
+            color: #666;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 30px 20px;
+            border-radius: 12px;
+            text-align: center;
+            max-width: 300px;
+        }
+
+        .modal-emoji {
+            font-size: 48px;
+            margin-bottom: 15px;
+        }
+
+        .modal-title {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            color: #333;
+        }
+
+        .modal-message {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 20px;
+        }
+
+        .modal-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 30px 20px;
+            color: #999;
+        }
+
+        .empty-state-emoji {
+            font-size: 48px;
+            margin-bottom: 10px;
+        }
+
+        .empty-state-text {
+            font-size: 14px;
+            color: #666;
+        }
+
+        .checkbox-group {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+        }
+
+        .checkbox-item input {
+            cursor: pointer;
+        }
+
+        .checkbox-item label {
+            cursor: pointer;
+            font-size: 13px;
+            margin: 0;
+        }
+
+        @media (max-width: 480px) {
+            .stats {
+                grid-template-columns: 1fr;
+            }
+
+            .header h1 {
+                font-size: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🏃‍♀️ LÀM GIÀU THỂ CHẤT</h1>
+            <p>Nguyễn Thị Mai</p>
+        </div>
+
+        <div class="nav">
+            <button class="nav-btn active" data-view="input">Nhập liệu</button>
+            <button class="nav-btn" data-view="report">Báo cáo</button>
+        </div>
+
+        <!-- INPUT VIEW -->
+        <div class="content active" id="input-view">
+            <div class="form-group">
+                <label>📅 Ngày</label>
+                <input type="date" id="input-date">
+            </div>
+
+            <div class="form-group">
+                <label>🏃 Môn thể thao</label>
+                <select id="sport-select">
+                    <option value="running">Chạy bộ (km)</option>
+                    <option value="swimming">Bơi lội (km)</option>
+                    <option value="cycling">Đạp xe (km)</option>
+                    <option value="other">Môn khác (giờ)</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>📊 Số lượng</label>
+                <input type="number" id="amount-input" placeholder="Nhập số lượng" step="0.1">
+            </div>
+
+            <button class="btn" onclick="app.addActivity()">➕ Thêm hoạt động</button>
+
+            <div style="margin-top: 30px;">
+                <h3 style="margin-bottom: 15px; font-size: 16px; color: #333;">📝 Lịch sử hoạt động</h3>
+                <div id="activity-list"></div>
+            </div>
+        </div>
+
+        <!-- REPORT VIEW -->
+        <div class="content" id="report-view">
+            <div class="tabs" id="report-tabs">
+                <button class="tab-btn active" data-period="today">Hôm nay</button>
+                <button class="tab-btn" data-period="week">Tuần này</button>
+                <button class="tab-btn" data-period="month">Tháng này</button>
+                <button class="tab-btn" data-period="year">Năm này</button>
+                <button class="tab-btn" data-period="custom">Tùy chọn</button>
+            </div>
+
+            <div id="custom-date-picker" style="display: none; margin-bottom: 15px;">
+                <div class="form-group" style="margin-bottom: 10px;">
+                    <label>Từ ngày</label>
+                    <input type="date" id="report-start-date">
+                </div>
+                <div class="form-group">
+                    <label>Đến ngày</label>
+                    <input type="date" id="report-end-date">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Chọn môn thể thao</label>
+                <div class="checkbox-group">
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="sport-running" checked>
+                        <label for="sport-running">Chạy bộ</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="sport-swimming" checked>
+                        <label for="sport-swimming">Bơi lội</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="sport-cycling" checked>
+                        <label for="sport-cycling">Đạp xe</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="sport-other" checked>
+                        <label for="sport-other">Môn khác</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="stars-display">
+                <div class="stars-display-emoji">⭐</div>
+                <div class="stars-display-text">Ngôi sao đạt được</div>
+                <div class="stars-display-number" id="stars-count">0</div>
+            </div>
+
+            <div class="stats" id="report-stats"></div>
+
+            <div>
+                <h3 style="margin-bottom: 15px; font-size: 14px; color: #333;">📅 Chi tiết theo ngày</h3>
+                <div id="daily-breakdown"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL -->
+    <div class="modal" id="milestone-modal">
+        <div class="modal-content">
+            <div class="modal-emoji">🎉</div>
+            <div class="modal-title">Chúc mừng!</div>
+            <div class="modal-message" id="modal-message"></div>
+            <button class="modal-btn" onclick="app.closeModal()">Tuyệt vời!</button>
+        </div>
+    </div>
+
+    <script>
+        const app = {
+            activities: [],
+            currentView: 'input',
+            currentPeriod: 'today',
+            selectedSports: new Set(['running', 'swimming', 'cycling', 'other']),
+
+            init() {
+                this.loadActivities();
+                this.setDefaultDate();
+                this.setupEventListeners();
+                this.render();
+            },
+
+            setDefaultDate() {
+                const today = new Date().toISOString().split('T')[0];
+                document.getElementById('input-date').value = today;
+                document.getElementById('report-start-date').value = today;
+                document.getElementById('report-end-date').value = today;
+            },
+
+            loadActivities() {
+                const saved = localStorage.getItem('fitnessActivities');
+                this.activities = saved ? JSON.parse(saved) : [];
+            },
+
+            saveActivities() {
+                localStorage.setItem('fitnessActivities', JSON.stringify(this.activities));
+            },
+
+            setupEventListeners() {
+                document.querySelectorAll('.nav-btn').forEach(btn => {
+                    btn.addEventListener('click', (e) => {
+                        document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+                        document.querySelectorAll('.content').forEach(c => c.classList.remove('active'));
+                        e.target.classList.add('active');
+                        this.currentView = e.target.dataset.view;
+                        document.getElementById(`${e.target.dataset.view}-view`).classList.add('active');
+                        if (this.currentView === 'report') this.renderReport();
+                    });
+                });
+
+                document.querySelectorAll('.tab-btn').forEach(btn => {
+                    btn.addEventListener('click', (e) => {
+                        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+                        e.target.classList.add('active');
+                        this.currentPeriod = e.target.dataset.period;
+                        const customPicker = document.getElementById('custom-date-picker');
+                        customPicker.style.display = this.currentPeriod === 'custom' ? 'block' : 'none';
+                        this.renderReport();
+                    });
+                });
+
+                document.querySelectorAll('.checkbox-item input').forEach(checkbox => {
+                    checkbox.addEventListener('change', (e) => {
+                        const sport = e.target.id.replace('sport-', '');
+                        if (e.target.checked) {
+                            this.selectedSports.add(sport);
+                        } else {
+                            this.selectedSports.delete(sport);
+                        }
+                        this.renderReport();
+                    });
+                });
+
+                document.getElementById('report-start-date').addEventListener('change', () => this.renderReport());
+                document.getElementById('report-end-date').addEventListener('change', () => this.renderReport());
+            },
+
+            addActivity() {
+                const date = document.getElementById('input-date').value;
+                const sport = document.getElementById('sport-select').value;
+                const amount = parseFloat(document.getElementById('amount-input').value);
+
+                if (!date || !sport || isNaN(amount) || amount <= 0) {
+                    alert('Vui lòng nhập đầy đủ thông tin');
+                    return;
+                }
+
+                const activity = {
+                    id: Date.now(),
+                    date,
+                    sport,
+                    amount
+                };
+
+                this.activities.push(activity);
+                this.saveActivities();
+                document.getElementById('amount-input').value = '';
+                this.checkMilestones(sport, amount);
+                this.render();
+            },
+
+            deleteActivity(id) {
+                this.activities = this.activities.filter(a => a.id !== id);
+                this.saveActivities();
+                this.render();
+            },
+
+            checkMilestones(sport, newAmount) {
+                const total = this.activities.filter(a => a.sport === sport).reduce((sum, a) => sum + a.amount, 0);
+                let milestone = null;
+
+                if (sport === 'running' && total % 100 === 0 && total >= 100) {
+                    milestone = { sport: 'Chạy bộ', total, unit: 'km' };
+                } else if (sport === 'swimming' && total % 50 === 0 && total >= 50) {
+                    milestone = { sport: 'Bơi lội', total, unit: 'km' };
+                } else if (sport === 'cycling' && total % 1000 === 0 && total >= 1000) {
+                    milestone = { sport: 'Đạp xe', total, unit: 'km' };
+                }
+
+                if (milestone) {
+                    document.getElementById('modal-message').textContent = `Bạn đã hoàn thành ${milestone.total} ${milestone.unit} ${milestone.sport.toLowerCase()}!`;
+                    document.getElementById('milestone-modal').classList.add('active');
+                }
+            },
+
+            closeModal() {
+                document.getElementById('milestone-modal').classList.remove('active');
+            },
+
+            getSportLabel(sport) {
+                const labels = { running: 'Chạy bộ', swimming: 'Bơi lội', cycling: 'Đạp xe', other: 'Môn khác' };
+                return labels[sport];
+            },
+
+            getSportUnit(sport) {
+                return sport === 'other' ? 'giờ' : 'km';
+            },
+
+            checkStar(date) {
+                const dayActivities = this.activities.filter(a => a.date === date);
+                return (
+                    dayActivities.filter(a => a.sport === 'running').reduce((s, a) => s + a.amount, 0) >= 2 ||
+                    dayActivities.filter(a => a.sport === 'swimming').reduce((s, a) => s + a.amount, 0) >= 0.5 ||
+                    dayActivities.filter(a => a.sport === 'cycling').reduce((s, a) => s + a.amount, 0) >= 15 ||
+                    dayActivities.filter(a => a.sport === 'other').reduce((s, a) => s + a.amount, 0) >= 1
+                );
+            },
+
+            getDateRange() {
+                const today = new Date();
+                let start, end = new Date();
+
+                if (this.currentPeriod === 'today') {
+                    start = new Date(today);
+                } else if (this.currentPeriod === 'week') {
+                    const dayOfWeek = today.getDay();
+                    start = new Date(today);
+                    start.setDate(today.getDate() - dayOfWeek);
+                } else if (this.currentPeriod === 'month') {
+                    start = new Date(today.getFullYear(), today.getMonth(), 1);
+                } else if (this.currentPeriod === 'year') {
+                    start = new Date(today.getFullYear(), 0, 1);
+                } else {
+                    start = new Date(document.getElementById('report-start-date').value);
+                    end = new Date(document.getElementById('report-end-date').value);
+                }
+
+                return {
+                    start: start.toISOString().split('T')[0],
+                    end: end.toISOString().split('T')[0]
+                };
+            },
+
+            render() {
+                const list = document.getElementById('activity-list');
+                const sorted = [...this.activities].reverse();
+
+                if (sorted.length === 0) {
+                    list.innerHTML = '<div class="empty-state"><div class="empty-state-emoji">📭</div><div class="empty-state-text">Chưa có hoạt động nào</div></div>';
+                    return;
+                }
+
+                list.innerHTML = sorted.map(activity => `
+                    <div class="activity-item">
+                        <div class="activity-item-info">
+                            <p>${this.getSportLabel(activity.sport)}</p>
+                            <p>${activity.date} • ${activity.amount} ${this.getSportUnit(activity.sport)}</p>
+                        </div>
+                        <button class="btn-delete" onclick="app.deleteActivity(${activity.id})">Xóa</button>
+                    </div>
+                `).join('');
+            },
+
+            renderReport() {
+                const { start, end } = this.getDateRange();
+                const filtered = this.activities.filter(a => {
+                    return a.date >= start && a.date <= end && this.selectedSports.has(a.sport);
+                });
+
+                // Stats
+                const statsDiv = document.getElementById('report-stats');
+                let statsHtml = '';
+                [...this.selectedSports].forEach(sport => {
+                    const total = filtered.filter(a => a.sport === sport).reduce((s, a) => s + a.amount, 0);
+                    statsHtml += `
+                        <div class="stat-card">
+                            <div class="stat-card-label">${this.getSportLabel(sport)}</div>
+                            <div class="stat-card-value">${total.toFixed(total % 1 === 0 ? 0 : 1)}</div>
+                            <div class="stat-card-unit">${this.getSportUnit(sport)}</div>
+                        </div>
+                    `;
+                });
+                statsDiv.innerHTML = statsHtml;
+
+                // Stars
+                const daySet = new Set();
+                filtered.forEach(a => daySet.add(a.date));
+                let starCount = 0;
+                daySet.forEach(date => {
+                    if (this.checkStar(date)) starCount++;
+                });
+                document.getElementById('stars-count').textContent = starCount;
+
+                // Daily breakdown
+                const dates = Array.from(daySet).sort();
+                const dailyDiv = document.getElementById('daily-breakdown');
+                if (dates.length === 0) {
+                    dailyDiv.innerHTML = '<div class="empty-state"><div class="empty-state-emoji">📭</div><div class="empty-state-text">Không có dữ liệu</div></div>';
+                    return;
+                }
+
+                dailyDiv.innerHTML = dates.map(date => {
+                    const dayActivities = filtered.filter(a => a.date === date);
+                    const hasStar = this.checkStar(date);
+                    const dateObj = new Date(date + 'T00:00:00');
+                    const dateStr = dateObj.toLocaleDateString('vi-VN', { weekday: 'short', month: 'short', day: 'numeric' });
+
+                    return `
+                        <div class="daily-item">
+                            <div class="daily-item-header">
+                                <span>${dateStr}</span>
+                                ${hasStar ? '<span>⭐</span>' : ''}
+                            </div>
+                            <div class="daily-item-content">
+                                ${dayActivities.map(a => `<span>${this.getSportLabel(a.sport)}: ${a.amount} ${this.getSportUnit(a.sport)}</span>`).join('')}
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+            }
+        };
+
+        app.init();
+    </script>
+</body>
+</html>
